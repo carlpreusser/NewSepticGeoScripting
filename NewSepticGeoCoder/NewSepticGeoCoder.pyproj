@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>579886a8-5378-465e-a282-aad65778fcd2</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>NewSepticGeoCoder.py</StartupFile>
+    <StartupFile>NewSeptic.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,6 +22,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="NewSepticGeoCoder.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NewSeptic.py">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
