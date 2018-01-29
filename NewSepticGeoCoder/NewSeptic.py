@@ -87,14 +87,23 @@ class GetViableContours(object):
         
         #input = parcelPolygon
         #in_path = arcpy.Describe(input).catalogPath
-        out_path = r'C:\Users\crpge\Desktop\Medina\CreatedData'
-        #output_Layer = "ourFoundParcel" 
-        whereClause = '"PPNUMBER"' + " = '" + str(parcelId) + "'"
-        arcpy.MakeFeatureLayer_management(parcelPolygon, "parcelOutput", whereClause)
+
+        out_path = r'C:\Users\crpge\Desktop\Medina\CreatedData' 
+        try: 
+            whereClause = '"PPNUMBER"' + " = '" + str(parcelId) + "'"
+            arcpy.MakeFeatureLayer_management(parcelPolygon, "parcelOutput", whereClause)
+        except Exception:
+            arcpy.AddError("There was an issue finding the parcel number")
+            raise arcpy.ExecuteError
+
         #arcpy.SelectLayerByAttribute_management ('parcelOutput', 'NEW_SELECTION', '"PPNUMBER" = "03608A08027"')
         #arcpy.SelectLayerByAttribute_management ('lyr', 'NEW_SELECTION', '"PPNUMBER" =  {}'.format(parcelId))
         #arcpy.CopyFeatures_management("parcelOutput", outLayer)
         #addLayer = arcpy.mapping.Layer("parcelOutput")
+
+
+        #initially
         arcpy.FeatureClassToShapefile_conversion('parcelOutput', out_path)
+
         #arcpy.mapping.AddLayer(df, "myParcels", "BOTTOM")
         #arcpy.RefreshTOC()
