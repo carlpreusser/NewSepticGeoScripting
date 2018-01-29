@@ -76,22 +76,25 @@ class GetViableContours(object):
     def execute(self, parameters, messages):
     
         arcpy.env.overwriteOutput = True
-        contourLines = parameters[0].valueAsText
-        parcelPolygon = parameters[1].valueAsText
-        parcelId = parameters[2].valueAsText
+        #contourLines = parameters[0].valueAsText
+        parcelPolygon = r'C:\Users\crpge\Desktop\Medina\ParcelLines\parcelp.shp' #parameters[1].valueAsText
+        parcelId = parameters[2].valueAsText  
         
+        #parcelShape = arcpy.Describe(parcelPolygon).shapeFieldName
+
         mxd = arcpy.mapping.MapDocument(r"C:\Users\crpge\Desktop\Medina\Medina.mxd")
-        df = arcpy.mapping.ListDataFrames(mxd, "New Data Frame")
+        df = arcpy.mapping.ListDataFrames(mxd)
         
         #input = parcelPolygon
         #in_path = arcpy.Describe(input).catalogPath
-        #out_path = os.path.join(os.path.dirname(in_path), "output")
-		output_Layer = "ourFoundParcel"
-		
-        arcpy.MakeFeatureLayer_management(parcelPolygon, "parcelOutput")
+        out_path = r'C:\Users\crpge\Desktop\Medina\CreatedData'
+        #output_Layer = "ourFoundParcel" 
+        whereClause = '"PPNUMBER"' + " = '" + str(parcelId) + "'"
+        arcpy.MakeFeatureLayer_management(parcelPolygon, "parcelOutput", whereClause)
         #arcpy.SelectLayerByAttribute_management ('parcelOutput', 'NEW_SELECTION', '"PPNUMBER" = "03608A08027"')
         #arcpy.SelectLayerByAttribute_management ('lyr', 'NEW_SELECTION', '"PPNUMBER" =  {}'.format(parcelId))
-        arcpy.CopyFeatures_management("parcelOutput", outLayer)
-        addLayer = arcpy.mapping.Layer(outLayer)
-        arcpy.mapping.AddLayer(df, addLayer, "BOTTOM")
-        arcpy.RefreshTOC()
+        #arcpy.CopyFeatures_management("parcelOutput", outLayer)
+        #addLayer = arcpy.mapping.Layer("parcelOutput")
+        arcpy.FeatureClassToShapefile_conversion('parcelOutput', out_path)
+        #arcpy.mapping.AddLayer(df, "myParcels", "BOTTOM")
+        #arcpy.RefreshTOC()
